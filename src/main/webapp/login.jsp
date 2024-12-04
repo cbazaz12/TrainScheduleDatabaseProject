@@ -9,7 +9,7 @@
 <body>
 
 <h2>Login</h2>
-<form action="browsing.jsp" method="post">
+<form action="loginResult.jsp" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required><br><br>
 
