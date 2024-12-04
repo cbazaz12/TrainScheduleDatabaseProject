@@ -31,6 +31,10 @@
             userExists = true;
             // Store the username in the session to mark the user as logged in
             session.setAttribute("username", username);
+
+            // Redirect to the browsing page
+            response.sendRedirect("browsing.jsp"); // Redirect to the browsing page
+            return;  // Important: stop further processing after redirect
         }
 
         resultSet.close();
@@ -41,14 +45,8 @@
         db.closeConnection(connection);
     }
 
-    if (userExists) {
-%>
-        <h3>Login successful!</h3>
-        <form action="logout.jsp" method="post">
-            <input type="submit" value="Logout">
-        </form>
-<%
-    } else {
+    // If login fails, show an error message
+    if (!userExists) {
 %>
         <h3>User not found</h3>
         <a href="login.jsp">Return to Login</a>
