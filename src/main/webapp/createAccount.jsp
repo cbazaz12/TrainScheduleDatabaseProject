@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="com.cs336.pkg.ApplicationDB" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +15,15 @@
 
     <label for="newPassword">Password:</label>
     <input type="password" id="newPassword" name="newPassword" required><br><br>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required><br><br>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
 
     <input type="submit" value="Create Account">
 </form>
