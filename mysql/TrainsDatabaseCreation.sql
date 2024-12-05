@@ -41,8 +41,34 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES ('admin1','pp','Jack','Black','111-11-1111','admin'),('rep1','ppap','Johnny','Test','222-22-2222','rep');
+INSERT INTO `employee` VALUES ('admin1','pp','Jack','Black','111-11-1111','admin'),('rep1','ppap','Johnny','Bravo','222-22-2222','rep');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `qna`
+--
+
+DROP TABLE IF EXISTS `qna`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `qna` (
+  `username` varchar(50) NOT NULL,
+  `question` varchar(5000) DEFAULT NULL,
+  `answer` varchar(5000) DEFAULT NULL,
+  KEY `username` (`username`),
+  CONSTRAINT `qna_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `qna`
+--
+
+LOCK TABLES `qna` WRITE;
+/*!40000 ALTER TABLE `qna` DISABLE KEYS */;
+INSERT INTO `qna` VALUES ('user1','Are there refunds?','No.'),('user2','Is the sky blue?','Sometimes, it could be black (night time).');
+/*!40000 ALTER TABLE `qna` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -191,4 +217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 11:36:14
+-- Dump completed on 2024-12-05 17:07:42
