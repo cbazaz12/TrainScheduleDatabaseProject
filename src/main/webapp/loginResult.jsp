@@ -13,32 +13,68 @@
     String username = request.getParameter("username");
     String password = request.getParameter("password");
     boolean userExists = false;
+    boolean isAdmin = false;
+    boolean isRep = false;
 
     ApplicationDB db = new ApplicationDB();
     Connection connection = db.getConnection();
 
     try {
-        // Prepare a SQL statement to check for user credentials
-        String query = "SELECT * FROM user WHERE username = ? AND password = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, username);
-        statement.setString(2, password);
+        // First, check if the user is an admin or rep
+        String empQuery = "SELECT role FROM employee WHERE username = ? AND password = ?";
+        PreparedStatement empStatement = connection.prepareStatement(empQuery);
+        empStatement.setString(1, username);
+        empStatement.setString(2, password);
 
-        ResultSet resultSet = statement.executeQuery();
+        ResultSet empResultSet = empStatement.executeQuery();
 
-        // Check if a user with the given credentials exists
-        if (resultSet.next()) {
+        if (empResultSet.next()) {
             userExists = true;
-            // Store the username in the session to mark the user as logged in
-            session.setAttribute("username", username);
+            String role = empResultSet.getString("role");
 
-            // Redirect to the browsing page
-            response.sendRedirect("browsing.jsp"); // Redirect to the browsing page
-            return;  // Important: stop further processing after redirect
+            if ("admin".equalsIgnoreCase(role)) {
+                isAdmin = true;
+            } else if ("rep".equalsIgnoreCase(role)) {
+                isRep = true;
+            }
         }
 
-        resultSet.close();
-        statement.close();
+        empResultSet.close();
+        empStatement.close();
+
+        // If not an admin or rep, check the `user` table
+        if (!userExists) {
+            String userQuery = "SELECT * FROM user WHERE username = ? AND password = ?";
+            PreparedStatement userStatement = connection.prepareStatement(userQuery);
+            userStatement.setString(1, username);
+            userStatement.setString(2, password);
+
+            ResultSet userResultSet = userStatement.executeQuery();
+
+            if (userResultSet.next()) {
+                userExists = true;
+                // Regular user detected
+                session.setAttribute("username", username);
+                response.sendRedirect("browsing.jsp");
+                return;
+            }
+
+            userResultSet.close();
+            userStatement.close();
+        }
+
+        // Redirect based on role
+        if (isAdmin) {
+            session.setAttribute("username", username);
+            session.setAttribute("role", "admin");
+            response.sendRedirect("adminPage.jsp");
+            return;
+        } else if (isRep) {
+            session.setAttribute("username", username);
+            session.setAttribute("role", "rep");
+            response.sendRedirect("repPage.jsp");
+            return;
+        }
     } catch (SQLException e) {
         e.printStackTrace();
     } finally {
