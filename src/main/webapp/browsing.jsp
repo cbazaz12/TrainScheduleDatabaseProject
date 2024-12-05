@@ -13,23 +13,31 @@
         th, td { padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .search-form { margin-bottom: 20px; }
-        .logout-button {
+        .button {
             padding: 10px 20px;
-            background-color: #ff4c4c;
-            color: black;
+            background-color: #4CAF50;
+            color: white;
             text-decoration: none;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 10px;
+        }
+        .logout-button {
+            background-color: #ff4c4c;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Train Schedule Browser</h1>
-        <form action="logout.jsp" method="post" style="margin: 0;">
-            <button type="submit" class="logout-button">Logout</button>
-        </form>
+        <div>
+            <a href="qna.jsp" class="button">Go to Q&A</a>
+            <a href="reservation.jsp" class="button">Go to Reservation</a> <!-- New Button -->
+            <form action="logout.jsp" method="post" style="display: inline;">
+                <button type="submit" class="button logout-button">Logout</button>
+            </form>
+        </div>
     </header>
 
     <form method="get" class="search-form">
