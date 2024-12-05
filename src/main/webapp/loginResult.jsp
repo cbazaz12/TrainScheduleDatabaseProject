@@ -48,7 +48,7 @@
     // If login fails, show an error message
     if (!userExists) {
 %>
-        <h3>User not found</h3>
+        <h3>User not found. Please check your username and password.</h3>
         <a href="login.jsp">Return to Login</a>
 <%
     }
