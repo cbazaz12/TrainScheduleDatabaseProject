@@ -18,6 +18,34 @@ USE `trains`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `employee` (
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `ssn` varchar(11) DEFAULT NULL,
+  `role` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee`
+--
+
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('admin1','pp','Jack','Black','111-11-1111','admin'),('rep1','ppap','Johnny','Test','222-22-2222','rep');
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `schedule`
 --
 
@@ -44,7 +72,7 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (1,'2024-12-04 08:30:00',15,'01:30:00','Blue Line','2024-12-04 10:00:00','Penn Station','William Gray Station'),(2,'2024-12-04 14:15:00',20,'02:15:00','Red Line','2024-12-04 16:30:00','William Gray Station','Penn Station');
+INSERT INTO `schedule` VALUES (1,'2024-12-04 08:30:00',15,'01:30:00','Blue Line','2024-12-04 10:00:00','Penn Station','William Gray Station'),(1,'2024-12-04 14:15:00',20,'02:15:00','Red Line','2024-12-04 16:30:00','William Gray Station','Chicago Union Station'),(2,'2024-12-04 17:45:00',18,'02:30:00','Green Line','2024-12-04 20:30:00','Penn Station','Chicago Union Station');
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +98,7 @@ CREATE TABLE `station` (
 
 LOCK TABLES `station` WRITE;
 /*!40000 ALTER TABLE `station` DISABLE KEYS */;
-INSERT INTO `station` VALUES (1,'New York City','Penn Station','New York'),(2,'Philadelphia','William Gray Station','Pennsylvania');
+INSERT INTO `station` VALUES (1,'New York City','Penn Station','New York'),(2,'Philadelphia','William Gray Station','Pennsylvania'),(3,'Chicago','Chicago Union Station','Illinois');
 /*!40000 ALTER TABLE `station` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +128,7 @@ CREATE TABLE `stops` (
 
 LOCK TABLES `stops` WRITE;
 /*!40000 ALTER TABLE `stops` DISABLE KEYS */;
-INSERT INTO `stops` VALUES (1,1,'2024-12-04 08:30:00','09:00:00','09:10:00'),(1,2,'2024-12-04 14:15:00','16:00:00','16:10:00'),(2,1,'2024-12-04 08:30:00','09:45:00','09:55:00'),(2,2,'2024-12-04 14:15:00','15:30:00','15:40:00');
+INSERT INTO `stops` VALUES (1,1,'2024-12-04 08:30:00','08:30:00','08:30:00'),(1,2,'2024-12-04 17:45:00','17:45:00','17:45:00'),(2,1,'2024-12-04 08:30:00','10:00:00','10:00:00'),(2,1,'2024-12-04 14:15:00','14:15:00','14:15:00'),(3,1,'2024-12-04 14:15:00','16:30:00','16:30:00'),(3,2,'2024-12-04 17:45:00','20:30:00','20:30:00');
 /*!40000 ALTER TABLE `stops` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,6 +167,7 @@ CREATE TABLE `user` (
   `password` varchar(50) DEFAULT NULL,
   `firstname` varchar(50) DEFAULT NULL,
   `lastname` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -149,7 +178,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('user1','pass','Bob','Johnson'),('user2','password','Billy','Joe');
+INSERT INTO `user` VALUES ('user1','pass','Bob','Johnson','bobjohnson@gmail.com'),('user2','password','Billy','Joe','billyjoe@gmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -162,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-04 18:33:09
+-- Dump completed on 2024-12-05 11:36:14
