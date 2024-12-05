@@ -39,6 +39,12 @@
         <input type="text" name="destination" id="destination" required>
         <label for="date">Date of Travel:</label>
         <input type="date" name="date" id="date" required>
+        <label for="sort">Sort By:</label>
+        <select name="sort" id="sort">
+            <option value="origin_datetime">Departure Time</option>
+            <option value="dest_datetime">Arrival Time</option>
+            <option value="fare">Fare</option>
+        </select>
         <button type="submit">Search</button>
     </form>
 
@@ -50,6 +56,7 @@
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");
         String date = request.getParameter("date");
+        String sort = request.getParameter("sort");
 
         if (origin != null && destination != null && date != null) {
             PreparedStatement stmt = null;
@@ -58,11 +65,17 @@
             try {
                 conn = db.getConnection();
 
-                // Query to fetch train schedules with joined data
+                // Default sort criteria if not provided
+                if (sort == null || sort.isEmpty()) {
+                    sort = "origin_datetime";
+                }
+
+                // Query to fetch train schedules with sorting
                 String query = "SELECT s.tid, s.origin_datetime, s.fare, s.travel_time, s.transit_line, " +
                                "s.dest_datetime, s.origin_station, s.dest_station " +
                                "FROM schedule s " +
-                               "WHERE s.origin_station = ? AND s.dest_station = ? AND DATE(s.origin_datetime) = ?";
+                               "WHERE s.origin_station = ? AND s.dest_station = ? AND DATE(s.origin_datetime) = ? " +
+                               "ORDER BY " + sort;
                 stmt = conn.prepareStatement(query);
                 stmt.setString(1, origin);
                 stmt.setString(2, destination);
