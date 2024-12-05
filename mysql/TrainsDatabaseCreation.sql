@@ -99,7 +99,7 @@ CREATE TABLE `reservationreserveshas` (
 
 LOCK TABLES `reservationreserveshas` WRITE;
 /*!40000 ALTER TABLE `reservationreserveshas` DISABLE KEYS */;
-INSERT INTO `reservationreserveshas` VALUES (1,'2024-12-04',15,'user1',1,'2024-12-04 08:30:00');
+INSERT INTO `reservationreserveshas` VALUES (52,'2023-12-04',15,'user1',1,'2023-12-04 08:30:00');
 /*!40000 ALTER TABLE `reservationreserveshas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (1,'2024-12-04 08:30:00',15,'01:30:00','Blue Line','2024-12-04 10:00:00','Penn Station','William Gray Station','one-way'),(1,'2024-12-04 14:15:00',20,'02:15:00','Red Line','2024-12-04 16:30:00','William Gray Station','Chicago Union Station','one-way'),(2,'2024-12-04 17:45:00',18,'02:30:00','Green Line','2024-12-04 20:30:00','Penn Station','Chicago Union Station','one-way');
+INSERT INTO `schedule` VALUES (1,'2023-12-04 08:30:00',15,'01:30:00','Blue Line','2023-12-04 10:00:00','Penn Station','William Gray Station','one-way'),(1,'2024-12-31 08:30:00',15,'01:30:00','Blue Line','2024-12-31 10:00:00','Penn Station','William Gray Station','one-way'),(1,'2024-12-31 14:15:00',20,'02:15:00','Red Line','2024-12-31 16:30:00','William Gray Station','Chicago Union Station','one-way'),(2,'2024-12-31 17:45:00',18,'02:30:00','Green Line','2024-12-31 20:30:00','Penn Station','Chicago Union Station','one-way');
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +187,7 @@ CREATE TABLE `stops` (
 
 LOCK TABLES `stops` WRITE;
 /*!40000 ALTER TABLE `stops` DISABLE KEYS */;
-INSERT INTO `stops` VALUES (1,1,'2024-12-04 08:30:00','08:30:00','08:30:00'),(1,2,'2024-12-04 17:45:00','17:45:00','17:45:00'),(2,1,'2024-12-04 08:30:00','10:00:00','10:00:00'),(2,1,'2024-12-04 14:15:00','14:15:00','14:15:00'),(3,1,'2024-12-04 14:15:00','16:30:00','16:30:00'),(3,2,'2024-12-04 17:45:00','20:30:00','20:30:00');
+INSERT INTO `stops` VALUES (1,1,'2023-12-04 08:30:00','08:30:00','08:30:00'),(1,1,'2024-12-31 08:30:00','08:30:00','08:30:00'),(1,2,'2024-12-31 17:45:00','17:45:00','17:45:00'),(2,1,'2023-12-04 08:30:00','10:00:00','10:00:00'),(2,1,'2024-12-31 08:30:00','10:00:00','10:00:00'),(2,1,'2024-12-31 14:15:00','14:15:00','14:15:00'),(3,1,'2024-12-31 14:15:00','16:30:00','16:30:00'),(3,2,'2024-12-31 17:45:00','20:30:00','20:30:00');
 /*!40000 ALTER TABLE `stops` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 17:32:11
+-- Dump completed on 2024-12-05 18:39:59
