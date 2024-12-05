@@ -19,5 +19,11 @@
     <input type="submit" value="Login">
 </form>
 
+<br>
+<!-- Add Create Account button -->
+<form action="createAccount.jsp" method="get">
+    <input type="submit" value="Create Account">
+</form>
+
 </body>
 </html>
