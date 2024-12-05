@@ -39,12 +39,6 @@
         <input type="text" name="destination" id="destination" required>
         <label for="date">Date of Travel:</label>
         <input type="date" name="date" id="date" required>
-        <label for="sort">Sort by:</label>
-        <select name="sort" id="sort">
-            <option value="departure_time">Departure Time</option>
-            <option value="arrival_time">Arrival Time</option>
-            <option value="fare">Fare</option>
-        </select>
         <button type="submit">Search</button>
     </form>
 
@@ -56,7 +50,6 @@
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");
         String date = request.getParameter("date");
-        String sort = request.getParameter("sort");
 
         if (origin != null && destination != null && date != null) {
             PreparedStatement stmt = null;
@@ -65,8 +58,11 @@
             try {
                 conn = db.getConnection();
 
-                // Build SQL query dynamically with sorting
-                String query = "SELECT * FROM train_schedule WHERE origin = ? AND destination = ? AND date = ? ORDER BY " + sort;
+                // Query to fetch train schedules with joined data
+                String query = "SELECT s.tid, s.origin_datetime, s.fare, s.travel_time, s.transit_line, " +
+                               "s.dest_datetime, s.origin_station, s.dest_station " +
+                               "FROM schedule s " +
+                               "WHERE s.origin_station = ? AND s.dest_station = ? AND DATE(s.origin_datetime) = ?";
                 stmt = conn.prepareStatement(query);
                 stmt.setString(1, origin);
                 stmt.setString(2, destination);
@@ -77,34 +73,33 @@
                 %>
                 <table>
                     <tr>
-                        <th>Train Number</th>
-                        <th>Train Name</th>
+                        <th>Train ID</th>
+                        <th>Origin Station</th>
+                        <th>Destination Station</th>
                         <th>Departure Time</th>
                         <th>Arrival Time</th>
                         <th>Fare</th>
-                        <th>Stops</th>
                         <th>Action</th>
                     </tr>
                 <%
                 while (rs.next()) {
-                    String trainNumber = rs.getString("train_number");
-                    String trainName = rs.getString("train_name");
-                    String departureTime = rs.getString("departure_time");
-                    String arrivalTime = rs.getString("arrival_time");
+                    String tid = rs.getString("tid");
+                    String originStation = rs.getString("origin_station");
+                    String destStation = rs.getString("dest_station");
+                    String departureTime = rs.getString("origin_datetime");
+                    String arrivalTime = rs.getString("dest_datetime");
                     double fare = rs.getDouble("fare");
-                    String stops = rs.getString("stops");
                     %>
                     <tr>
-                        <td><%= trainNumber %></td>
-                        <td><%= trainName %></td>
+                        <td><%= tid %></td>
+                        <td><%= originStation %></td>
+                        <td><%= destStation %></td>
                         <td><%= departureTime %></td>
                         <td><%= arrivalTime %></td>
-                        <td><%= fare %></td>
-                        <td><%= stops %></td>
+                        <td>$<%= fare %></td>
                         <td>
-                            <form action="reserve.jsp" method="get" style="margin: 0;">
-                                <input type="hidden" name="train_number" value="<%= trainNumber %>">
-                                <input type="hidden" name="train_name" value="<%= trainName %>">
+                            <form action="reserving.jsp" method="get" style="margin: 0;">
+                                <input type="hidden" name="train_number" value="<%= tid %>">
                                 <input type="hidden" name="departure_time" value="<%= departureTime %>">
                                 <input type="hidden" name="arrival_time" value="<%= arrivalTime %>">
                                 <input type="hidden" name="fare" value="<%= fare %>">
