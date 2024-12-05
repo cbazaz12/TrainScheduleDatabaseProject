@@ -13,6 +13,9 @@
 <%
     String newUsername = request.getParameter("newUsername");
     String newPassword = request.getParameter("newPassword");
+    String firstName = request.getParameter("firstName");
+    String lastName = request.getParameter("lastName");
+    String email = request.getParameter("email");
     boolean userExists = false;
 
     ApplicationDB db = new ApplicationDB();
@@ -35,10 +38,13 @@
 
         // If the user doesn't exist, insert the new user
         if (!userExists) {
-            String insertQuery = "INSERT INTO user (username, password) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO user (username, password, firstname, lastname, email) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
             insertStatement.setString(1, newUsername);
             insertStatement.setString(2, newPassword);
+            insertStatement.setString(3, firstName);
+            insertStatement.setString(4, lastName);
+            insertStatement.setString(5, email);
 
             int rowsAffected = insertStatement.executeUpdate();
             insertStatement.close();
