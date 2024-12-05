@@ -72,6 +72,38 @@ INSERT INTO `qna` VALUES ('user1','Are there refunds?','No.'),('user2','Is the s
 UNLOCK TABLES;
 
 --
+-- Table structure for table `reservationreserveshas`
+--
+
+DROP TABLE IF EXISTS `reservationreserveshas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reservationreserveshas` (
+  `reservation_number` int NOT NULL,
+  `date` date DEFAULT NULL,
+  `total_fare` float DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
+  `tid` int NOT NULL,
+  `origin_datetime` datetime NOT NULL,
+  PRIMARY KEY (`reservation_number`),
+  KEY `tid` (`tid`,`origin_datetime`),
+  KEY `username` (`username`),
+  CONSTRAINT `reservationreserveshas_ibfk_1` FOREIGN KEY (`tid`, `origin_datetime`) REFERENCES `schedule` (`tid`, `origin_datetime`),
+  CONSTRAINT `reservationreserveshas_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservationreserveshas`
+--
+
+LOCK TABLES `reservationreserveshas` WRITE;
+/*!40000 ALTER TABLE `reservationreserveshas` DISABLE KEYS */;
+INSERT INTO `reservationreserveshas` VALUES (1,'2024-12-04',15,'user1',1,'2024-12-04 08:30:00');
+/*!40000 ALTER TABLE `reservationreserveshas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `schedule`
 --
 
@@ -87,6 +119,7 @@ CREATE TABLE `schedule` (
   `dest_datetime` datetime DEFAULT NULL,
   `origin_station` varchar(50) DEFAULT NULL,
   `dest_station` varchar(50) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`tid`,`origin_datetime`),
   CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`tid`) REFERENCES `train` (`tid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -98,7 +131,7 @@ CREATE TABLE `schedule` (
 
 LOCK TABLES `schedule` WRITE;
 /*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
-INSERT INTO `schedule` VALUES (1,'2024-12-04 08:30:00',15,'01:30:00','Blue Line','2024-12-04 10:00:00','Penn Station','William Gray Station'),(1,'2024-12-04 14:15:00',20,'02:15:00','Red Line','2024-12-04 16:30:00','William Gray Station','Chicago Union Station'),(2,'2024-12-04 17:45:00',18,'02:30:00','Green Line','2024-12-04 20:30:00','Penn Station','Chicago Union Station');
+INSERT INTO `schedule` VALUES (1,'2024-12-04 08:30:00',15,'01:30:00','Blue Line','2024-12-04 10:00:00','Penn Station','William Gray Station','one-way'),(1,'2024-12-04 14:15:00',20,'02:15:00','Red Line','2024-12-04 16:30:00','William Gray Station','Chicago Union Station','one-way'),(2,'2024-12-04 17:45:00',18,'02:30:00','Green Line','2024-12-04 20:30:00','Penn Station','Chicago Union Station','one-way');
 /*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 17:07:42
+-- Dump completed on 2024-12-05 17:32:11
