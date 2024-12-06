@@ -33,7 +33,7 @@
         <h1>Train Schedule Browser</h1>
         <div>
             <a href="qna.jsp" class="button">Go to Q&A</a>
-            <a href="reservation.jsp" class="button">Go to Reservation</a> <!-- New Button -->
+            <a href="reservation.jsp" class="button">Reservation History</a> <!-- New Button -->
             <form action="logout.jsp" method="post" style="display: inline;">
                 <button type="submit" class="button logout-button">Logout</button>
             </form>
