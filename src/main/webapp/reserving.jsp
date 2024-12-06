@@ -4,93 +4,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reserve Train</title>
+    <title>Create Reservation</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        form { margin-top: 20px; }
-        label { display: block; margin-top: 10px; }
-        input, button { margin-top: 5px; padding: 8px; }
-        .success { color: green; }
-        .error { color: red; }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { max-width: 500px; margin: 0 auto; }
+        .form-container input, .form-container select, .form-container button { width: 100%; padding: 10px; margin: 10px 0; }
+        h1, h2 { text-align: center; }
+        .logout-button {
+            padding: 10px 20px;
+            background-color: #ff4c4c;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Reserve Train</h1>
-    <%
-        String trainNumber = request.getParameter("train_number");
-        String trainName = request.getParameter("train_name");
-        String departureTime = request.getParameter("departure_time");
-        String arrivalTime = request.getParameter("arrival_time");
-        String fare = request.getParameter("fare");
+    <h1>Confirm Your Reservation</h1>
 
-        if (trainNumber == null || trainName == null || departureTime == null || arrivalTime == null || fare == null) {
-            out.println("<p class='error'>Error: Missing train details. Please go back and select a train.</p>");
-        } else {
-    %>
-        <p><strong>Train Number:</strong> <%= trainNumber %></p>
-        <p><strong>Train Name:</strong> <%= trainName %></p>
-        <p><strong>Departure Time:</strong> <%= departureTime %></p>
-        <p><strong>Arrival Time:</strong> <%= arrivalTime %></p>
-        <p><strong>Fare:</strong> $<%= fare %></p>
+    <div class="form-container">
+        <form action="reserving.jsp" method="post">
+            <input type="hidden" name="train_number" value="<%= request.getParameter("train_number") %>">
+            <input type="hidden" name="departure_time" value="<%= request.getParameter("departure_time") %>">
+            <input type="hidden" name="arrival_time" value="<%= request.getParameter("arrival_time") %>">
+            <input type="hidden" name="fare" value="<%= request.getParameter("fare") %>">
 
-        <form method="post">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" required>
+            <label>Train Number: <%= request.getParameter("train_number") %></label><br>
+            <label>Departure Time: <%= request.getParameter("departure_time") %></label><br>
+            <label>Arrival Time: <%= request.getParameter("arrival_time") %></label><br>
+            <label>Fare: $<%= request.getParameter("fare") %></label><br>
 
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="reservation_date">Reservation Date:</label>
+            <input type="date" name="reservation_date" id="reservation_date" required>
 
-            <label for="seats">Number of Seats:</label>
-            <input type="number" id="seats" name="seats" min="1" required>
+            <label for="discount">Discount:</label>
+            <select name="discount" id="discount">
+                <option value="0">None</option>
+                <option value="10">Child (10% off)</option>
+                <option value="15">Senior (15% off)</option>
+                <option value="20">Disabled (20% off)</option>
+            </select>
 
-            <button type="submit">Reserve</button>
+            <button type="submit">Confirm Reservation</button>
         </form>
-    <%
-        }
 
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
-            String seats = request.getParameter("seats");
+        <form action="browsing.jsp" method="get">
+            <button class="logout-button" type="submit">Go Back</button>
+        </form>
+    </div>
 
-            if (name != null && email != null && seats != null) {
-                ApplicationDB db = new ApplicationDB();
-                Connection conn = null;
-                PreparedStatement stmt = null;
+    <% 
+        // Process form submission to save the reservation
+        if (request.getMethod().equalsIgnoreCase("post")) {
+            ApplicationDB db = new ApplicationDB();
+            Connection conn = null;
+            PreparedStatement stmt = null;
 
+            try {
+                String trainNumber = request.getParameter("train_number");
+                String departureTime = request.getParameter("departure_time");
+                String reservationDate = request.getParameter("reservation_date");
+                float fare = Float.parseFloat(request.getParameter("fare"));
+                int discount = Integer.parseInt(request.getParameter("discount"));
+                String username = "user1"; // Replace with session-based username
+
+                // Apply discount
+                float finalFare = fare - (fare * discount / 100);
+
+                conn = db.getConnection();
+
+                // Insert reservation into the database
+                String query = "INSERT INTO reservationreserveshas (reservation_number, date, total_fare, username, tid, origin_datetime) " +
+                               "VALUES (?, ?, ?, ?, ?, ?)";
+                stmt = conn.prepareStatement(query);
+
+                // Generate a unique reservation number
+				int reservationNumber = (int) (new java.util.Date().getTime() % 100000);
+
+                stmt.setInt(1, reservationNumber);
+                stmt.setString(2, reservationDate);
+                stmt.setFloat(3, finalFare);
+                stmt.setString(4, username);
+                stmt.setInt(5, Integer.parseInt(trainNumber));
+                stmt.setString(6, departureTime);
+
+                stmt.executeUpdate();
+
+                out.println("<p style='color: green; text-align: center;'>Reservation confirmed! Reservation Number: " + reservationNumber + "</p>");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                out.println("<p style='color: red; text-align: center;'>Error processing reservation. Please try again.</p>");
+            } finally {
                 try {
-                    conn = db.getConnection();
-
-                    String query = "INSERT INTO reservations (train_number, train_name, departure_time, arrival_time, fare, name, email, seats) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    stmt = conn.prepareStatement(query);
-                    stmt.setString(1, trainNumber);
-                    stmt.setString(2, trainName);
-                    stmt.setString(3, departureTime);
-                    stmt.setString(4, arrivalTime);
-                    stmt.setDouble(5, Double.parseDouble(fare));
-                    stmt.setString(6, name);
-                    stmt.setString(7, email);
-                    stmt.setInt(8, Integer.parseInt(seats));
-
-                    int rows = stmt.executeUpdate();
-                    if (rows > 0) {
-                        out.println("<p class='success'>Reservation successful! You will receive an email confirmation shortly.</p>");
-                    } else {
-                        out.println("<p class='error'>Error: Could not complete the reservation. Please try again later.</p>");
-                    }
+                    if (stmt != null) stmt.close();
+                    db.closeConnection(conn);
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    out.println("<p class='error'>Database error: " + e.getMessage() + "</p>");
-                } finally {
-                    try {
-                        if (stmt != null) stmt.close();
-                        if (conn != null) conn.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
                 }
-            } else {
-                out.println("<p class='error'>Error: All fields are required.</p>");
             }
         }
     %>
