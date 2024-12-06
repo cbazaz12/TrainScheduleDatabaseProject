@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,22 +9,45 @@
 
 <h1>Welcome, Admin</h1>
 <p>Here are your administrative functions:</p>
+
 <ul>
-    <li>Add, edit, and delete information for a customer representative</li>
-    <li>Obtain sales reports per month</li>
-    <li>Produce a list of reservations:
-        <ul>
-            <li>By transit line</li>
-            <li>By customer name</li>
-        </ul>
+    <li>
+        <a href="manageCustomerReps.jsp">Add, edit, and delete information for a customer representative</a>
     </li>
+    <li>
+        <a href="salesReport.jsp">Obtain sales reports per month</a>
+    </li>
+
+    <!-- Produce list of reservations button -->
+    <li>
+        <form action="listAllReservations.jsp" method="post">
+            <button type="submit">View All Reservations</button>
+        </form>
+    </li>
+
+    <!-- Search reservations by transit line button -->
+    <li>
+        <form action="searchReservationsByLine.jsp" method="post">
+            <button type="submit">Search Reservations by Transit Line</button>
+        </form>
+    </li>
+
+    <!-- Search reservations by customer name button -->
+    <li>
+        <form action="searchReservationsByCustomer.jsp" method="post">
+            <button type="submit">Search Reservations by Customer Name</button>
+        </form>
+    </li>
+
     <li>Produce a listing of revenue per:
         <ul>
-            <li>Transit line</li>
-            <li>Customer name</li>
+            <li><a href="revenueByLine.jsp">Transit line</a></li>
+            <li><a href="revenueByCustomer.jsp">Customer name</a></li>
         </ul>
     </li>
-    <li>Best customer and best 5 most active transit lines</li>
+    <li>
+        <a href="bestCustomerAndLines.jsp">Best customer and best 5 most active transit lines</a>
+    </li>
 </ul>
 
 <form action="logout.jsp" method="post">
