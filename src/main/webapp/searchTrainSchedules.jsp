@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*, java.util.*" %>
+<%@ page import="com.cs336.pkg.ApplicationDB" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,15 +29,11 @@
     String station = request.getParameter("station");
     if (station != null && !station.trim().isEmpty()) {
         Connection connection = null;
-        Statement stmt = null;
         ResultSet rs = null;
 
         try {
-            // Database connection
-            String dbUrl = "jdbc:mysql://localhost:3306/Trains";
-            String dbUser = "root";
-            String dbPassword = "Cb10001049!!";
-            connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        	ApplicationDB db = new ApplicationDB();
+            connection = db.getConnection();
 
             // SQL query to get schedules where the station is either origin or destination
             String query = "SELECT s.tid, s.origin_datetime, s.fare, s.travel_time, s.transit_line, " +
@@ -101,8 +99,7 @@
         } finally {
             try {
                 if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (connection != null) connection.close();
+                if (connection != null) connection.close(); // No need to close stmt as we use pstmt
             } catch (SQLException e) {
                 e.printStackTrace();
             }
