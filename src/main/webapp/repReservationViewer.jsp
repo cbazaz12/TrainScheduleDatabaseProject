@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.StringWriter" %>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="com.cs336.pkg.ApplicationDB" %> <!-- Import the ApplicationDB class -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +46,9 @@
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Trains", "root", "tyler0987");
+            // Create an instance of ApplicationDB and get a connection
+            ApplicationDB applicationDB = new ApplicationDB(); // Fix: instantiate ApplicationDB correctly
+            conn = applicationDB.getConnection(); // Get connection from ApplicationDB
             
             String query = "SELECT r.username, r.reservation_number, s.transit_line, s.origin_station, s.dest_station, r.date, r.total_fare " +
                            "FROM reservationreserveshas r " +
