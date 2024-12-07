@@ -32,7 +32,7 @@
 <p>Here are your available functions:</p>
 <ul>
     <li>
-        <form action="repAnswers.jsp" method="get" style="display: inline;">
+        <form action="manageSchedules.jsp" method="get" style="display: inline;">
             <button type="submit" class="button">Edit Train Schedule</button>
         </form>
     </li>
@@ -42,7 +42,7 @@
         </form>
     </li>
     <li>
-        <form action="repReservationViewer.jsp" method="get" style="display: inline;">
+        <form action="searchTrainSchedules.jsp" method="get" style="display: inline;">
             <button type="submit" class="button">Train Schedule List List</button>
         </form>
     </li>
