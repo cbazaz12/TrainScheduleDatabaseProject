@@ -33,14 +33,23 @@
 <ul>
     <li>
         <form action="repAnswers.jsp" method="get" style="display: inline;">
+            <button type="submit" class="button">Edit Train Schedule</button>
+        </form>
+    </li>
+    <li>
+        <form action="repAnswers.jsp" method="get" style="display: inline;">
             <button type="submit" class="button">Customer QNA</button>
         </form>
     </li>
     <li>
-        Produce a list of train schedules for a given station (as origin/destination)
+        <form action="repReservationViewer.jsp" method="get" style="display: inline;">
+            <button type="submit" class="button">Train Schedule List List</button>
+        </form>
     </li>
     <li>
-        Produce a list of all customers with reservations on a given transit line and date
+        <form action="repReservationViewer.jsp" method="get" style="display: inline;">
+            <button type="submit" class="button">Customer Reservation List</button>
+        </form>
     </li>
 </ul>
 
