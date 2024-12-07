@@ -1,5 +1,5 @@
 <%@ page import="java.sql.*" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.cs336.pkg.ApplicationDB" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,15 +28,17 @@
         <th>Actions</th>
     </tr>
     <%
-        String dbUrl = "jdbc:mysql://localhost:3306/Trains";
-        String dbUser = "root";
-        String dbPassword = "Cb10001049!!";
         Connection connection = null;
+        ResultSet rs = null;
+        PreparedStatement deleteStmt = null;
+        PreparedStatement updateStmt = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+            // Get connection from ApplicationDB
+            ApplicationDB db = new ApplicationDB();
+            connection = db.getConnection();
 
+            // Handle POST actions (edit/delete)
             if ("POST".equalsIgnoreCase(request.getMethod())) {
                 String action = request.getParameter("action");
 
@@ -45,7 +47,7 @@
                     String originDatetime = request.getParameter("origin_datetime");
 
                     String deleteQuery = "DELETE FROM schedule WHERE tid = ? AND origin_datetime = ?";
-                    PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+                    deleteStmt = connection.prepareStatement(deleteQuery);
                     deleteStmt.setInt(1, tid);
                     deleteStmt.setString(2, originDatetime);
                     deleteStmt.executeUpdate();
@@ -61,7 +63,7 @@
                     String type = request.getParameter("type");
 
                     String updateQuery = "UPDATE schedule SET fare = ?, travel_time = ?, transit_line = ?, dest_datetime = ?, origin_station = ?, dest_station = ?, type = ? WHERE tid = ? AND origin_datetime = ?";
-                    PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+                    updateStmt = connection.prepareStatement(updateQuery);
                     updateStmt.setFloat(1, fare);
                     updateStmt.setString(2, travelTime);
                     updateStmt.setString(3, transitLine);
@@ -75,9 +77,10 @@
                 }
             }
 
+            // Query to fetch all train schedules
             String query = "SELECT * FROM schedule";
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 int tid = rs.getInt("tid");
@@ -114,12 +117,14 @@
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            // Clean up resources
+            try {
+                if (rs != null) rs.close();
+                if (deleteStmt != null) deleteStmt.close();
+                if (updateStmt != null) updateStmt.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     %>
