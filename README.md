@@ -24,4 +24,4 @@ Valid Train Lines:
 - Blue Line
 - Green Line
 
-All of the above are included in the database after running the the trains_user.sql file
+All of the above are included in the database after running the the TrainsDatabaseCreation.sql file in the MySQL folder
