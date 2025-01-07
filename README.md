@@ -1,4 +1,4 @@
-# cs336_project_group15
+# Train Schedule Database
 
 Before Running:
 1. run the trains_user.sql file in your MySQL Workbench
@@ -6,6 +6,22 @@ Before Running:
 3. create a local apache tomcat server to run on
 
 Valid Username, Password combinations:
+
 - user1, pass
 - user2, password
-- Both of the above combinations are included in the database after running the the trains_user.sql file
+- admin1, pp
+- rep1, ppap
+
+Valid Train Stations:
+
+- Penn Station
+- William Gray Station
+- Chicago Union Station
+
+Valid Train Lines:
+
+- Red Line
+- Blue Line
+- Green Line
+
+All of the above are included in the database after running the the trains_user.sql file
