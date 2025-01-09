@@ -1,5 +1,7 @@
 # Train Schedule Database
 
+## Project by Christian Bazaz and Taegon Park
+
 Download the CODE_ZIP file and import to your eclipse workspace to run the project
 
 Before Running:
